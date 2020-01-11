@@ -5,13 +5,13 @@ namespace com.javierquevedo{
 	
 	public class SplashScreenController : MonoBehaviour {
 	
-		private GameObject _camera;
+		private GameObject camera;
 		private SplashScreenGUI _gui;
 		private const string _bubbleShooterPrefabName = "Prefabs/BubbleShooterPrefab";
 		
 		void Start () {
-			_camera = GameObject.Find("Camera");	
-			this._gui = _camera.AddComponent<SplashScreenGUI>();
+			camera = GameObject.Find("Camera");	
+			this._gui = camera.AddComponent<SplashScreenGUI>();
 			this._gui.StartGameDelegate = this.startGame;
 		}
 

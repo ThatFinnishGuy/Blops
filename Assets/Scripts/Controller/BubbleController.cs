@@ -24,10 +24,11 @@ namespace com.javierquevedo{
 		
 		/* Constants */
 		private const float _killSpeed = 10.0f;
-		
-		/*
+
+        /*
 		 * Delegates
 		 */
+         
 		
 		MotionDetectionDelegate motionDelegate;
 		public delegate bool MotionDetectionDelegate(Vector3 position);
@@ -54,7 +55,7 @@ namespace com.javierquevedo{
 		void Start () {
 			
 			
-			this.GetComponent<Renderer>().material.color = JQUtils.ColorForBubbleColor(bubble.color);		
+			this.GetComponent<SpriteRenderer>().material.color = JQUtils.ColorForBubbleColor(bubble.color);
 		}
 
 		void Update () {
@@ -98,8 +99,14 @@ namespace com.javierquevedo{
 		public void moveTo(Vector3 destination, float duration){
 			StartCoroutine(tweenTo(destination, duration));	
 		}
-		
-		IEnumerator tweenTo(Vector3 destination, float duration){
+
+        public void setIgnoreRaycast()
+        {
+            if (this.gameObject != null)
+                this.gameObject.layer = 2;
+        }
+
+        IEnumerator tweenTo(Vector3 destination, float duration){
 			float timeThrough = 0.0f;
 			Vector3 initialPosition = transform.position;
 			while (Vector3.Distance(transform.position, destination) >= 0.05){
@@ -140,6 +147,8 @@ namespace com.javierquevedo{
 				}
 			}
 		}
+
+ 
 			
 		void updateDirection(){
 			

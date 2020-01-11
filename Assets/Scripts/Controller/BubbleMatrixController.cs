@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using com.javierquevedo.events;
+using System;
+
 namespace com.javierquevedo
 {
 
@@ -23,7 +25,7 @@ namespace com.javierquevedo
 
 
         // Constants
-        private const float _bubbleLinearSpeed = 5.0f;
+        private const float _bubbleLinearSpeed = 35.0f;
         private const string _bubblePrefabName = "Prefabs/BubblePrefab";
         private const int _defaultRowsCount = 3;
 
@@ -34,6 +36,7 @@ namespace com.javierquevedo
         private GameObject _bubbleShooter;
         private BubbleController _currentBubble;
         private ArrayList _bubbleControllers;
+        private Vector3 _launchPosition;
         private bool _pendingToAddRow;
         private bool _isPlaying;
         //private float _shiftAnimationDuration = 0.2f;
@@ -53,10 +56,13 @@ namespace com.javierquevedo
         public void startGame()
         {
 
-            this._bubblesContainer = GameObject.Find("Bubbles");
-            this._bubbleShooter = GameObject.Find("BubbleShooter");
             this.geometry = new BubbleMatrixGeometry(leftBorder, rightBorder, topBorder, 0.0f, rows, columns, bubbleRadius);
-            this._currentBubble = this.createBubble();
+            this._bubblesContainer = GameObject.Find("Bubbles");
+            this._launchPosition = new Vector3((rightBorder - leftBorder) / 2.0f - geometry.bubbleRadius / 2.0f, -0.65f, 0);
+            this._bubbleShooter = GameObject.Find("BubbleShooter");
+            this._bubbleShooter.transform.position = _launchPosition;
+            
+            prepareCurrentBubble();
             this._isPlaying = true;
             StartCoroutine("addRowScheduler");
 
@@ -67,9 +73,11 @@ namespace com.javierquevedo
 
         }
 
+
+
         void Update()
         {
-            if (Input.GetMouseButtonDown(0) && this._isPlaying)
+            if (Input.GetMouseButtonUp(0) && this._isPlaying)
             {
                 if (this._currentBubble != null)
                 {
@@ -84,7 +92,7 @@ namespace com.javierquevedo
         {
             GameObject bubblePrefab = Instantiate(Resources.Load(_bubblePrefabName)) as GameObject;
             bubblePrefab.transform.parent = _bubblesContainer.transform;
-            bubblePrefab.transform.position = new Vector3((rightBorder - leftBorder) / 2.0f - geometry.bubbleRadius / 2.0f, -0.65f, 0);
+            bubblePrefab.transform.position = _launchPosition;
             BubbleController bubbleController = bubblePrefab.GetComponent<BubbleController>();
             bubbleController.leftBorder = this.geometry.leftBorder;
             bubbleController.rightBorder = this.geometry.rightBorder;
@@ -97,6 +105,12 @@ namespace com.javierquevedo
             bubbleController.MotionDelegate = canMoveToPosition;
             this._bubbleControllers.Add(bubbleController);
             return bubbleController;
+        }
+
+        private void prepareCurrentBubble()
+        {
+            this._currentBubble = this.createBubble();
+            this._currentBubble.setIgnoreRaycast();
         }
 
         private float shootingRotation()
@@ -263,7 +277,7 @@ namespace com.javierquevedo
             }
 
             // Prepare the new bubble to shoot it
-            this._currentBubble = this.createBubble();
+            prepareCurrentBubble();
         }
 
         /*
