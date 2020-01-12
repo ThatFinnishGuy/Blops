@@ -15,7 +15,9 @@ namespace com.javierquevedo
         private GameObject _bubbleShooterPrefab;
         private GameObject _camera;
         private BubbleMatrixController _bubbleMatrixController;
-        private HUD _hud;
+        private GameObject _hud;
+        private GameHUD _gameHUD;
+
         void Awake()
         {
             _game = new com.javierquevedo.Game();
@@ -24,8 +26,11 @@ namespace com.javierquevedo
         void Start()
         {
             _camera = GameObject.Find("Camera");
-            _hud = _camera.AddComponent<HUD>();
-            _hud.game = this._game;
+
+            _hud = GameObject.Find("GameHUD");
+            _gameHUD = _hud.AddComponent<GameHUD>();
+            _gameHUD.game = this._game;
+
             this.startGame();
 
 

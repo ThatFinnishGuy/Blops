@@ -1,72 +1,69 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-public class BubbleShooterController : MonoBehaviour
+namespace com.javierquevedo
 {
-
-    public bool isAiming;
-    public bool isTouching;
-
-    private float rotationSpeed = 250.0f;
-    private float maxLeftAngle = 85.0f;
-    private float maxRightAngle = 275.0f;
-
-    private Ray mouseRay;
-    private RaycastHit hit;
-
-    private LineRenderer lineRenderer;
-
-    void Start()
-    {
-        isAiming = true;
-        isTouching = false;
-        lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.useWorldSpace = true;
-    }
-
-    void Update()
+    public class BubbleShooterController : MonoBehaviour
     {
 
+        public bool isAiming;
+        
+        private float maxLeftAngle = 85.0f;
+        private float maxRightAngle = 275.0f;
 
+        private Ray mouseRay;
+        private RaycastHit hit;
 
-        if (isAiming)
+        private LineRenderer lineRenderer;
+        public Color lineRendererColor;
+
+        void Start()
         {
-            if (Input.touchCount > 0)
+            isAiming = true;
+            lineRenderer = GetComponent<LineRenderer>();
+            lineRenderer.useWorldSpace = true;
+        }
+
+        void Update()
+        {
+            if (TouchController.Instance.isTouching)
             {
-                isTouching = true;
-                Touch touch = Input.GetTouch(0);
-                Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+                Vector3 touchPos = TouchController.Instance.touchPosition;
+                //calculate rotation for shooter which is then read by the "bubble object";
+
                 Vector2 lookDir = touchPos - transform.position;
-                float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg -90f;
+                float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
                 Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 transform.rotation = rotation;
+
+                if (!TouchController.Instance.isTouchingUI)
+                    launchPreview(touchPos);
+
                 if (transform.eulerAngles.z > this.maxLeftAngle && transform.eulerAngles.z < 180.0)
                 {
+                    lineRenderer.enabled = false;
                     transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, maxLeftAngle);
                 }
                 if (transform.eulerAngles.z < this.maxRightAngle && transform.eulerAngles.z > 180.0)
                 {
+                    lineRenderer.enabled = false;
                     transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, maxRightAngle);
                 }
-                launchPreview(touchPos);
             }
             else
             {
                 lineRenderer.enabled = false;
             }
-
-            Debug.Log(transform.rotation.eulerAngles);
         }
 
-    }
+        void launchPreview(Vector2 pos)
+        {
+            lineRenderer.enabled = true;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up);
+            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(1, pos);
+        }
 
-    void launchPreview(Vector2 pos)
-    {
-        lineRenderer.enabled = true;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up);
-        lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, pos);
+
     }
 
 }
-

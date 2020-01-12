@@ -22,7 +22,7 @@ namespace com.javierquevedo
         public float addRowPeriod = 10.0f;
         /* View Properties */
         public BubbleMatrixGeometry geometry;
-
+        
 
         // Constants
         private const float _bubbleLinearSpeed = 35.0f;
@@ -77,7 +77,7 @@ namespace com.javierquevedo
 
         void Update()
         {
-            if (Input.GetMouseButtonUp(0) && this._isPlaying)
+            if (Input.GetMouseButtonUp(0) && this._isPlaying && !TouchController.Instance.isTouchingUI) //TODO: handle input in TouchController
             {
                 if (this._currentBubble != null)
                 {
@@ -109,6 +109,7 @@ namespace com.javierquevedo
 
         private void prepareCurrentBubble()
         {
+            //set linerenderer color
             this._currentBubble = this.createBubble();
             this._currentBubble.setIgnoreRaycast();
         }

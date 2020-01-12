@@ -2,7 +2,7 @@
 using System.Collections;
 
 namespace com.javierquevedo{
-	public enum BubbleColor {Red, Blue, Yellow, Green, Black, White};
+	public enum BubbleColor {Purple, Blue, Red, White, Yellow, Orange};
     
 	public class Bubble {
 		

@@ -23,7 +23,7 @@ namespace com.javierquevedo{
 		public bool isMoving;
 		
 		/* Constants */
-		private const float _killSpeed = 10.0f;
+		private const float _killSpeed = 15.0f;
 
         /*
 		 * Delegates
@@ -88,7 +88,7 @@ namespace com.javierquevedo{
 			if (explodes)
 			{
 				StartCoroutine(scaleTo(new Vector3(0,0,0), 0.15f));
-			}else
+			}else //drop them down
 			{
 				Vector3 killPosition = new Vector3(this.transform.position.x, 0f, 0f);
 				float distance = Vector3.Distance(this.transform.position, killPosition);
