@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using com.javierquevedo.events;
 using com.javierquevedo.gui;
@@ -17,6 +18,9 @@ namespace com.javierquevedo
         private BubbleMatrixController _bubbleMatrixController;
         private GameObject _hud;
         private GameHUD _gameHUD;
+
+        [SerializeField]
+        private GameObject _gameFinishedGUI = null;
 
         void Awake()
         {
@@ -73,7 +77,9 @@ namespace com.javierquevedo
 
         protected virtual void onGameFinished(GameState state)
         {
-            GameFinishedGUI finishedGUI = _camera.AddComponent<GameFinishedGUI>();
+            _gameFinishedGUI.SetActive(true);
+            GameFinishedGUI finishedGUI = _gameFinishedGUI.GetComponent<GameFinishedGUI>();
+            finishedGUI.game = this._game;
             finishedGUI.StartNewGameSelectedDelegate = this.onGameStartSelected;
             this._game.state = state;
             finishedGUI.game = this._game;
@@ -82,7 +88,7 @@ namespace com.javierquevedo
 
         private void onGameStartSelected()
         {
-            Application.LoadLevel(0);
+            SceneManager.LoadScene(1);
         }
 
 

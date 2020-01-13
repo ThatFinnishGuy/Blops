@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿/*using UnityEngine;
 using System.Collections;
 namespace com.javierquevedo{
 	
@@ -43,5 +43,5 @@ namespace com.javierquevedo{
 					this.startGameDelegate();
 			}
 		}
-}
+}*/
 

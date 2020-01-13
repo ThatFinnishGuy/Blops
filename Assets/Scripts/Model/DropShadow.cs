@@ -11,7 +11,7 @@ public class DropShadow : MonoBehaviour
     private Vector3 scale = new Vector3(1.0f, 1.0f, 1.0f);
 
     [SerializeField]
-    private Material material;
+    private Material material = null;
 
     private GameObject _shadow;
 

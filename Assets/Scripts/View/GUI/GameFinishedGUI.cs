@@ -1,46 +1,68 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TMPro;
 
+namespace com.javierquevedo.gui
+{
 
-namespace com.javierquevedo.gui{
-	
-	public class GameFinishedGUI : MenuGUI {
-	
-		GameFinishGUIDelegate startNewGameSelectedDelegate;
-		public delegate void GameFinishGUIDelegate();
-			
-		public GameFinishGUIDelegate StartNewGameSelectedDelegate{
-			set{
-				this.startNewGameSelectedDelegate = value;
-			}
-		}
-		
-		public Game game;
-		void Start () {
-				base.Start();;
-			}
-			
-			// Update is called once per frame
-			void Update () {
-				base.Update ();
-			
-			}
-			
-			protected override void  OnGUI(){
-				GUI.Box(new Rect(Screen.width/2 - _menuWidth /2.0f, Screen.height/2 - _menuHeight /2.0f, _menuWidth, _menuHeight), "Bubble Shooter");
-				GUI.Label(new Rect(Screen.width/2 - _buttonWidth /2.0f, (Screen.height/2 - _buttonHeight /2.0f) - 14, _buttonWidth, _buttonHeight), 
-				"YOU " + (game.state == GameState.Win ? "WON!" : "LOST!"));	
-				if (GUI.Button(new Rect(Screen.width/2 - _buttonWidth /2.0f, (Screen.height/2 - _buttonHeight /2.0f) + 15, _buttonWidth, _buttonHeight), "BACK TO MENU")){
-					this.newGameWasSelected();
-				}
-			}
-		
-		private void newGameWasSelected(){
-			if (startNewGameSelectedDelegate != null)
-				startNewGameSelectedDelegate();
-			}
-		}
-			
+    public class GameFinishedGUI : MonoBehaviour
+    {
+
+        GameFinishGUIDelegate startNewGameSelectedDelegate;
+        public delegate void GameFinishGUIDelegate();
+
+        public GameFinishGUIDelegate StartNewGameSelectedDelegate
+        {
+            set
+            {
+                this.startNewGameSelectedDelegate = value;
+            }
+        }
+
+        public Game game;
+
+        [SerializeField]
+        private TextMeshProUGUI winLoss = null;
+
+        [SerializeField]
+        private TextMeshProUGUI scoreResult = null;
+
+        [SerializeField]
+        private TextMeshProUGUI blocksResult = null;
+      
+
+        void Start()
+        {
+            PopulateTextFields();
+        }
+
+        void Update()
+        {
+            
+        }
+
+        void PopulateTextFields()
+        {
+            winLoss.text = "YOU " + (game.state == GameState.Win ? "WON!" : "LOST!");
+            scoreResult.text = game.score.ToString();
+            blocksResult.text = game.bubblesDestroyed.ToString();
+        }
+        
+        
+
+        public void newGameWasSelected()
+        {
+            if (startNewGameSelectedDelegate != null)
+                startNewGameSelectedDelegate();
+        }
+
+        public void QuitGame()
+        {
+            Debug.Log("Quitting");
+            Application.Quit();
+        }
+    }
+
 
 
 }
