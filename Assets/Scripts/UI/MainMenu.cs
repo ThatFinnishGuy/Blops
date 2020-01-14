@@ -11,6 +11,11 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    public void PlaySoundOnClick()
+    {
+        FindObjectOfType<AudioManager>().Play("BlopSound");
+    }
+
     public void QuitGame()
     {
         Debug.Log("Quitting");
