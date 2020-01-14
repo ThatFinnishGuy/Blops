@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e59649e08bf46455b857a610ec62512f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bubblePS: {fileID: 0}
   leftBorder: 0
   rightBorder: 6.5
   topBorder: 10

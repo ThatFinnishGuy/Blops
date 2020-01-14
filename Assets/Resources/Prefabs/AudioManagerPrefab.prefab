@@ -54,3 +54,18 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
+  - name: BubbleRow
+    clip: {fileID: 8300000, guid: a6b24352f2821cc418a83945c870d4f3, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: BubbleCollision
+    clip: {fileID: 8300000, guid: 1d5de19ca9c4e304cae8e56c6bf58e32, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: ClusterDestroyed
+    clip: {fileID: 8300000, guid: 50b0b6328295cca4f960e5b20ab9d9d0, type: 3}
+    volume: 1
+    pitch: 0.8
+    source: {fileID: 0}

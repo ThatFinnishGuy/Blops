@@ -24,9 +24,13 @@ public class PauseGame : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    public void SetClickVolume(float volume)
+    public void SetEffectsVolume(float volume)
     {
-        FindObjectOfType<AudioManager>().SetVolume("BlopSound", volume);
+        AudioManager am = FindObjectOfType<AudioManager>();
+        am.SetVolume("BlopSound", volume);
+        am.SetVolume("BubbleRow", volume);
+        am.SetVolume("BubbleCollision", volume);
+        am.SetVolume("ClusterDestroyed", volume);
     }
 
     public void SetMusicVolume(float volume)

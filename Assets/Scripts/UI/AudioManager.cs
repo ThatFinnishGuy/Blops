@@ -31,7 +31,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    internal void SetVolume(string name, float volume)
+    public void SetVolume(string name, float volume)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null)

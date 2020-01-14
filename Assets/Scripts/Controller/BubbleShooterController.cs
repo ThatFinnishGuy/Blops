@@ -12,7 +12,7 @@ namespace com.javierquevedo
 
         private Ray mouseRay;
         private RaycastHit hit;
-
+        
         private LineRenderer lineRenderer;
         public Color lineRendererColor;
 
@@ -29,7 +29,6 @@ namespace com.javierquevedo
             {
                 Vector3 touchPos = TouchController.Instance.touchPosition;
                 //calculate rotation for shooter which is then read by the "bubble object";
-
                 Vector2 lookDir = touchPos - transform.position;
                 float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
                 Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
@@ -55,12 +54,15 @@ namespace com.javierquevedo
             }
         }
 
+        
+
         void launchPreview(Vector2 pos)
         {
             lineRenderer.enabled = true;
             RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up);
             lineRenderer.SetPosition(0, transform.position);
             lineRenderer.SetPosition(1, pos);
+            
         }
 
 

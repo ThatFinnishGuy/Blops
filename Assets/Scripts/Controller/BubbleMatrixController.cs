@@ -35,6 +35,7 @@ namespace com.javierquevedo
         private GameObject _bubblesContainer;
         private GameObject _bubbleShooter;
         private BubbleController _currentBubble;
+        private AudioManager _audioManager;
         private ArrayList _bubbleControllers;
         private Vector3 _launchPosition;
         private bool _pendingToAddRow;
@@ -61,7 +62,8 @@ namespace com.javierquevedo
             this._launchPosition = new Vector3((rightBorder - leftBorder) / 2.0f - geometry.bubbleRadius / 2.0f, -0.65f, 0);
             this._bubbleShooter = GameObject.Find("BubbleShooter");
             this._bubbleShooter.transform.position = _launchPosition;
-            
+            this._audioManager = FindObjectOfType<AudioManager>();
+
             prepareCurrentBubble();
             this._isPlaying = true;
             StartCoroutine("addRowScheduler");
@@ -109,7 +111,7 @@ namespace com.javierquevedo
 
         private void prepareCurrentBubble()
         {
-            //set linerenderer color
+            
             this._currentBubble = this.createBubble();
             this._currentBubble.setIgnoreRaycast();
         }
@@ -188,6 +190,8 @@ namespace com.javierquevedo
                 }
 
             }
+            
+            _audioManager.Play("BubbleRow");
 
             if (overflows)
             {
@@ -217,6 +221,7 @@ namespace com.javierquevedo
 		 */
         void onBubbleCollision(GameObject bubble)
         {
+            
 
             // If the ball falls under the amoun of rows, the game is over
             Vector2 bubblePos = BubbleMatrixControllerHelper.CellForPosition(bubble.transform.position, this.geometry, this._matrix.isBaselineAlignedLeft);
@@ -246,15 +251,23 @@ namespace com.javierquevedo
 
             // Explode the bubbles that need to explode
             // The the cluster of bubbles with a similar color as the colliding one
+            //TODO move sounds to controller
             ArrayList cluster = this._matrix.colorCluster(bubbleController.bubble);
 
             if (cluster.Count > 2)
             {
+                //play cluster sound
+                _audioManager.Play("ClusterDestroyed");
                 // Explode the cluster
                 bubbleController.transform.position = BubbleMatrixControllerHelper.PositionForCell(matrixPosition, geometry, this._matrix.isBaselineAlignedLeft);
                 this.destroyCluster(cluster, true);
                 // Notify that bubbles have been removed
                 GameEvents.BubblesRemoved(cluster.Count, true);
+            }
+            else
+            {
+                //play collision sound
+                _audioManager.Play("BubbleCollision");
             }
 
             // Drop the bubbles that fall
