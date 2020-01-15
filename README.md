@@ -2,7 +2,7 @@
 
 Hello,
 
-For your consideration: Bloks.
+For your consideration: Blops.
 
 The build itself runs on the Android platform and is located in the APKFile directory in the root.
 
